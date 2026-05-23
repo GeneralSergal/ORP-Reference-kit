@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 from enum import Enum, auto
-from typing import Dict, List
 
 
 class SystemState(Enum):
@@ -9,13 +8,13 @@ class SystemState(Enum):
     FROZEN = auto()
 
 
-@dataclass
+@dataclass(frozen=True)
 class InputPacket:
     value: float
     ambiguity: float
 
 
-@dataclass
+@dataclass(frozen=True)
 class TracePoint:
     step: int
     drift: float
