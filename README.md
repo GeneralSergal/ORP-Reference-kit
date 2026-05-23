@@ -73,8 +73,8 @@ ORP v2.7 enforces:
 │       ├── protected_cm.py
 │       └── runtime.py             # Core ORPRuntime
 ├── tests/                         # Additional regression and invariant tests
-├── docs/                          # Official specification and annexes
-└── scripts/                       # Operational and utility scripts
+└── docs/                          # Official specification and annexes
+
 ```
 
 ---
