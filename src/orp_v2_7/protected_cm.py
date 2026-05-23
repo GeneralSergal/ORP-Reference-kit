@@ -21,6 +21,6 @@ class ProtectedCM:
             self._cm = self._history[-1]
 
     def __setattr__(self, key, value):
-        if key in {"params", "_cm"} and hasattr(self, "_cm"):
+        if key in {"_cm", "params"} and hasattr(self, "_cm"):
             raise AttributeError("I1 VIOLATION: CM is immutable outside GCP")
         super().__setattr__(key, value)
