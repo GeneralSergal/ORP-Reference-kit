@@ -2,6 +2,10 @@
 
 The **ORP v2.7 Reference Kit** is the canonical, immutable implementation of the **ORP v2.7 Frozen Reference Control Standard (FRCS)**. It provides a deterministic, versioned, and self-diagnosing control architecture for stochastic input processing.
 
+## Canonical Architecture Diagram
+
+![ORP v2.7 — Canonical System Specification](docs/ORP_v2_7_Canonical_Diagram.png)
+
 ## Status
 
 * **Status:** Frozen / Immutable
