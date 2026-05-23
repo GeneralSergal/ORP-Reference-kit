@@ -1,17 +1,8 @@
-from src.orp_v2_7.core_types import InputPacket, TracePoint, SystemState
+from orp_v2_7.runtime import ORPRuntime
+from orp_v2_7.config import CM_V2_7_BASE
+from cts.cts_harness import CTS2_7
 
 
-def get_e01_inputs():
-    return [
-        InputPacket(0.2, 0.1),
-        InputPacket(0.5, 0.4),
-        InputPacket(0.9, 0.8),
-    ]
-
-
-def compute_expected_trace():
-    return [
-        TracePoint(1, 0.03, SystemState.ACTIVE, "CM-2.7.0"),
-        TracePoint(2, 0.07, SystemState.ACTIVE, "CM-2.7.0"),
-        TracePoint(3, 0.13, SystemState.DEGRADED, "CM-2.7.0"),
-    ]
+def test_e01():
+    system = ORPRuntime(CM_V2_7_BASE)
+    assert CTS2_7(system).run()
