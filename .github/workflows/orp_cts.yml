@@ -7,46 +7,25 @@ on:
     branches: ["main"]
 
 jobs:
-  cts-validation:
-    name: CTS-2.7 Tribunal Validation
+  cts:
     runs-on: ubuntu-latest
 
     strategy:
-      fail-fast: true
       matrix:
         python-version: ["3.10", "3.11"]
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-          cache: "pip"
 
-      - name: Install Dependencies
+      - name: Install package
         run: |
           python -m pip install --upgrade pip
           pip install -e .
-          pip install pytest
 
-      - name: Run CTS-2.7 Compliance Suite
+      - name: Run tests
         run: |
-          PYTHONPATH=$PWD/src:$PWD pytest -q --disable-warnings --maxfail=1
-
-      - name: Verify Invariant Enforcement (I1–I5)
-        run: |
-          python -c "from orp_v2_7.runtime import ORPRuntime; print('Runtime import OK')"
-
-      - name: Golden Run Verification (E-01)
-        run: |
-          python -c "from cts.cts_harness import CTS2_7; print('CTS loaded OK')"
-
-      # 🔴 CRITICAL FIX: only runs if everything above passed
-      - name: Final Tribunal Verdict
-        if: success()
-        run: |
-          echo "CTS-2.7 VALIDATION COMPLETE"
-          echo "Build is invariant-compliant."
+          pytest -q --disable-warnings --maxfail=1
