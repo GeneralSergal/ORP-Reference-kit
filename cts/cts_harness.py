@@ -15,7 +15,7 @@ class CTS2_7:
         for a, e in zip(actual, expected):
             assert a.step == e.step
             assert a.state == e.state
-            assert abs(a.drift - e.drift) < 0.05
+            assert abs(a.drift - e.drift) < 0.01
             assert a.cm_version == e.cm_version
 
         return True
