@@ -2,7 +2,7 @@
 
 The **ORP v2.7 Reference Kit** is the official, immutable reference implementation of the **ORP v2.7 Frozen Reference Control Standard (FRCS)**.
 
-It serves as a deterministic, versioned, and self-diagnosing control architecture for processing stochastic inputs under strict governance.
+It provides a deterministic, versioned, and self-diagnosing control architecture for processing stochastic inputs under strict governance.
 
 ---
 
@@ -42,8 +42,8 @@ graph LR
 
 ## Status
 
-- **Status**: Frozen / Immutable
-- **Version**: 2.7.0
+- **Status**: Frozen / Immutable  
+- **Version**: 2.7.0  
 - **Standard**: ORP-SPEC-2.7-CANON
 
 ---
@@ -52,7 +52,7 @@ graph LR
 
 ORP v2.7 enforces:
 
-- **Governance Exclusivity** — The Constraint Matrix (CM) can only be mutated through the Governance Commit Protocol (GCP).
+- **Governance Exclusivity** — The Constraint Matrix (CM) can only be mutated via the Governance Commit Protocol (GCP).
 - **Deterministic Execution** — Identical inputs + identical CM version produce identical execution traces.
 - **Causal Attribution** — Failure modes are diagnosed through Drift Root Cause Decomposition (DRCD).
 
@@ -61,12 +61,20 @@ ORP v2.7 enforces:
 ## Repository Structure
 
 ```text
-├── src/orp_v2_7/          # Core executable kernel (Pipeline & Runtime)
-├── golden/                # Canonical Oracle (E-01 Golden Run Trace)
-├── cts/                   # CTS-2.7 Enforcement Layer (Compliance Test Suite)
-├── tests/                 # Regression and invariant tests
-├── docs/                  # Official specification and annexes
-└── scripts/               # Operational tools
+├── src/
+│   └── orp_v2_7/                  # Main package
+│       ├── __init__.py
+│       ├── config.py
+│       ├── core_types.py
+│       ├── cts_harness.py         # CTS-2.7 Compliance Test Suite
+│       ├── golden_run.py          # Golden Run oracle (E-01 and future traces)
+│       ├── kernel.py
+│       ├── pipeline.py
+│       ├── protected_cm.py
+│       └── runtime.py             # Core ORPRuntime
+├── tests/                         # Additional regression and invariant tests
+├── docs/                          # Official specification and annexes
+└── scripts/                       # Operational and utility scripts
 ```
 
 ---
@@ -93,5 +101,3 @@ pytest
 
 > **ORP v2.7** is a frozen epistemic artifact.  
 > Any modification to invariants, subsystem contracts, or pipeline ordering must be released as **ORP v2.8** or higher.
-
----
