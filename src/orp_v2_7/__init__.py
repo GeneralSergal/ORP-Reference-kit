@@ -1,2 +1,2 @@
 from .runtime import ORPRuntime
-from .config import CM_V2_7_BASE
+from .core_types import InputPacket, TracePoint, SystemState, ConstraintMatrix
