@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum, auto
-from typing import Dict, List, Tuple
+from typing import Dict, Tuple
 
 
 class SystemState(Enum):
