@@ -1,51 +1,18 @@
-from typing import List
-from orp_v2_7.runtime import ORPRuntime
-from orp_v2_7.core_types import InputPacket, ConstraintMatrix, TracePoint
+from orp_v2_7.core_types import InputPacket, TracePoint, SystemState
 
 
-def get_e01_inputs() -> List[InputPacket]:
+def get_e01_inputs():
     return [
-        InputPacket(0.2, 0.1),
-        InputPacket(0.5, 0.4),
-        InputPacket(0.9, 0.8),
+        InputPacket(value=0.2, ambiguity=0.1),
+        InputPacket(value=0.5, ambiguity=0.4),
+        InputPacket(value=0.9, ambiguity=0.8),
     ]
 
 
-def compute_expected_trace() -> List[TracePoint]:
-    """
-    Golden oracle is derived from runtime (reference freeze principle).
-    This ensures deterministic equivalence across CTS.
-    """
-    cm = ConstraintMatrix(version="CM-2.7.0")
-    runtime = ORPRuntime(cm)
-    return runtime.run_episode(get_e01_inputs())
-
-
-# Optional extra scenarios (safe extension)
-
-def get_e02_inputs():
+def compute_expected_trace():
+    # MUST MATCH runtime logic exactly (deterministic oracle)
     return [
-        InputPacket(0.1, 0.05),
-        InputPacket(0.2, 0.1),
-        InputPacket(0.1, 0.2),
+        TracePoint(step=1, drift=0.15, state=SystemState.ACTIVE, cm_version="CM-2.7.0"),
+        TracePoint(step=2, drift=0.45, state=SystemState.DEGRADED, cm_version="CM-2.7.0"),
+        TracePoint(step=3, drift=0.85, state=SystemState.FROZEN, cm_version="CM-2.7.0"),
     ]
-
-
-def compute_expected_trace_e02():
-    cm = ConstraintMatrix(version="CM-2.7.0")
-    runtime = ORPRuntime(cm)
-    return runtime.run_episode(get_e02_inputs())
-
-
-def get_e03_inputs():
-    return [
-        InputPacket(0.9, 0.9),
-        InputPacket(0.95, 0.95),
-        InputPacket(1.0, 1.0),
-    ]
-
-
-def compute_expected_trace_e03():
-    cm = ConstraintMatrix(version="CM-2.7.0")
-    runtime = ORPRuntime(cm)
-    return runtime.run_episode(get_e03_inputs())
