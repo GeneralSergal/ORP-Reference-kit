@@ -1,7 +1,15 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
 [project]
-name = "orp-v2-7-reference-kit"
+name = "orp-v2-7"
 version = "2.7.0"
+authors = [
+  { name="Laurentius" },
+]
+description = "ORP v2.7 Reference Kit"
 requires-python = ">=3.10"
 
-[tool.pytest.ini_options]
-testpaths = ["tests"]
+[tool.setuptools.packages.find]
+where = ["src"]
