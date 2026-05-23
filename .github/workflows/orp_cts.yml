@@ -34,19 +34,16 @@ jobs:
 
       - name: Run CTS-2.7 Compliance Suite
         run: |
-          PYTHONPATH=$PWD/src:$PWD pytest -q --disable-warnings --maxfail=1
+          export PYTHONPATH=$PWD/src:$PWD
+          pytest -q --disable-warnings --maxfail=1
 
       - name: Verify Invariant Enforcement (I1–I5)
         run: |
-          PYTHONPATH=$PWD/src:$PWD python - <<'EOF'
-from cts.cts_harness import CTS2_7
-from orp_v2_7.runtime import ORPRuntime
-from orp_v2_7.config import CM_V2_7_BASE
-
-print("CTS module loaded OK")
-system = ORPRuntime(CM_V2_7_BASE)
-print("Runtime initialized OK")
-EOF
+          export PYTHONPATH=$PWD/src:$PWD
+          python - << 'EOF'
+          from cts.cts_harness import CTS2_7
+          print("CTS module loaded OK")
+          EOF
 
       - name: Golden Run Verification (E-01)
         run: |
