@@ -1,4 +1,4 @@
-from orp_v2_7.golden_run import get_e01_inputs, compute_expected_trace
+from orp_v2_7.core_types import InputPacket, TracePoint, SystemState
 
 def get_e01_inputs():
     return [
