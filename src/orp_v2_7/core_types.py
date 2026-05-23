@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum, auto
-from typing import Dict, Tuple
+from typing import Dict, List
 
 
 class SystemState(Enum):
@@ -26,4 +26,4 @@ class TracePoint:
 @dataclass
 class ConstraintMatrix:
     version: str
-    params: Dict[str, Tuple[float, float]]
+    params: Dict
