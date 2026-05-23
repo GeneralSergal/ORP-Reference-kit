@@ -1,20 +1,21 @@
 from dataclasses import dataclass
-from enum import Enum, auto
+from enum import Enum
+from typing import Dict, Tuple
 
 
 class SystemState(Enum):
-    ACTIVE = auto()
-    DEGRADED = auto()
-    FROZEN = auto()
+    ACTIVE = "ACTIVE"
+    DEGRADED = "DEGRADED"
+    FROZEN = "FROZEN"
 
 
-@dataclass(frozen=True)
+@dataclass
 class InputPacket:
     value: float
     ambiguity: float
 
 
-@dataclass(frozen=True)
+@dataclass
 class TracePoint:
     step: int
     drift: float
@@ -22,8 +23,7 @@ class TracePoint:
     cm_version: str
 
 
-@dataclass(frozen=True)
+@dataclass
 class ConstraintMatrix:
     version: str
-    drift_threshold: float = 0.6
-    freeze_threshold: float = 0.85
+    drift_threshold: Tuple[float, float] = (0.3, 0.7)
