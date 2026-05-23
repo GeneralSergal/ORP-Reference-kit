@@ -1,31 +1,34 @@
-from .core_types import TracePoint, SystemState
+from typing import List
+from .core_types import InputPacket, TracePoint, SystemState
+from .config import ConstraintMatrix
 
 
 class ORPRuntime:
-    def __init__(self, cm):
+    def __init__(self, cm: ConstraintMatrix):
         self.cm = cm
 
-    def _state(self, step):
-        # Canonical E-01 state machine:
-        # Only step 3 triggers degradation
-        if step < 3:
-            return SystemState.ACTIVE
-        return SystemState.DEGRADED
-
-    def _drift(self, state):
-        return 0.10
-
-    def run_episode(self, inputs):
+    def run_episode(self, inputs: List[InputPacket]) -> List[TracePoint]:
         trace = []
+        drift = 0.0
+        state = SystemState.ACTIVE
 
-        for i, packet in enumerate(inputs, start=1):
-            state = self._state(i)
-            drift = self._drift(state)
+        for i, inp in enumerate(inputs, start=1):
+
+            # deterministic drift model (simple but stable)
+            drift = (inp.value * 0.6) + (inp.ambiguity * 0.4)
+
+            # state transitions
+            if drift >= self.cm.params["degrade_threshold"]:
+                state = SystemState.DEGRADED
+            elif drift >= self.cm.params["high_threshold"]:
+                state = SystemState.DEGRADED
+            else:
+                state = SystemState.ACTIVE
 
             trace.append(
                 TracePoint(
                     step=i,
-                    drift=drift,
+                    drift=round(drift, 2),
                     state=state,
                     cm_version=self.cm.version,
                 )
