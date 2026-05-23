@@ -9,28 +9,28 @@ It provides a deterministic, versioned, and self-diagnosing control architecture
 ## Canonical Architecture
 
 ```mermaid
-graph LR
-    INP((INPUT)) --> PLA[PL-A]
+graph TD
+    INPUT((INPUT)) --> PLA[PL-A]
     PLA --> GO[GO]
     GO --> CM[CM]
     CM --> CPA[CPA]
     CPA --> DRCD[DRCD]
     DRCD --> ARS[ARS]
     ARS --> GCP[GCP]
-    GCP --> OUT((OUTPUT))
-
-    %% Observability
-    CPA -. metrics .-> CM
-    DRCD -. diagnostics .-> CM
-    ARS -. proposals .-> CPA
+    GCP --> OUTPUT((OUTPUT))
 
     %% Failure Loop
-    FD((DRIFT)) --> CPA_F[CPA Measure]
+    DRIFT((DRIFT)) --> CPA_F[CPA Measure]
     CPA_F --> DRCD_F[DRCD Diagnose]
     DRCD_F --> ARS_F[ARS Repair]
     ARS_F --> GCP_F[GCP Validate]
     GCP_F --> VCM[Versioned CM Commit]
     VCM --> CM
+
+    %% Observability
+    CPA -. metrics .-> CM
+    DRCD -. diagnostics .-> CM
+    ARS -. proposals .-> CPA
 
     %% Governance Gate
     GCP --> POLICY{Invariant Check}
