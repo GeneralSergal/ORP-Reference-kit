@@ -1,0 +1,7 @@
+[project]
+name = "orp-v2-7-reference-kit"
+version = "2.7.0"
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
