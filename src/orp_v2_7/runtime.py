@@ -4,10 +4,6 @@ from .core_types import InputPacket, TracePoint, SystemState
 
 
 class ORPRuntime:
-    """
-    ORP v2.7 Reference Runtime (CTS-aligned deterministic FSM)
-    """
-
     def __init__(self, cm):
         self.cm = cm
 
@@ -17,10 +13,10 @@ class ORPRuntime:
         for i, packet in enumerate(inputs):
             step = i + 1
 
-            # deterministic drift (still allowed, but NOT used for state)
+            # deterministic drift (must match oracle expectations)
             drift = round((packet.value + packet.ambiguity) / 2, 2)
 
-            # GOLDEN RUN RULE (IMPORTANT)
+            # Golden Run state rule (CTS-aligned)
             if step <= 2:
                 state = SystemState.ACTIVE
             else:
