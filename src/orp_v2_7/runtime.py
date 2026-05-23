@@ -14,19 +14,18 @@ class ORPRuntime:
             drift = self._compute_drift(inp)
             state = self._compute_state(drift)
 
-            tp = TracePoint(
-                step=i,
-                drift=round(drift, 2),
-                state=state,
-                cm_version=self.cm.version,
+            self.trace.append(
+                TracePoint(
+                    step=i,
+                    drift=round(drift, 2),
+                    state=state,
+                    cm_version=self.cm.version,
+                )
             )
-
-            self.trace.append(tp)
 
         return self.trace
 
     def _compute_drift(self, inp):
-        # deterministic simplified model for E-01
         return inp.value * 0.1 + inp.ambiguity * 0.05
 
     def _compute_state(self, drift):
