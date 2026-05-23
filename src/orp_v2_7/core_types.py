@@ -9,15 +9,22 @@ class SystemState(Enum):
     FROZEN = auto()
 
 
-@dataclass(frozen=True)
+@dataclass
 class InputPacket:
     value: float
     ambiguity: float
 
 
-@dataclass(frozen=True)
+@dataclass
 class TracePoint:
     step: int
     drift: float
     state: SystemState
     cm_version: str
+
+
+@dataclass(frozen=True)
+class ConstraintMatrix:
+    version: str
+    drift_threshold: float = 0.6
+    freeze_threshold: float = 0.85
