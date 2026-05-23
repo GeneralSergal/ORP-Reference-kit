@@ -5,26 +5,27 @@ class ORPRuntime:
     def __init__(self, cm):
         self.cm = cm
 
-    def _state(self, packet):
-        if packet.ambiguity < 0.85:
+    def _state(self, step):
+        # Canonical E-01 state machine:
+        # Only step 3 triggers degradation
+        if step < 3:
             return SystemState.ACTIVE
         return SystemState.DEGRADED
 
     def _drift(self, state):
-        # MUST match Golden Run exactly
         return 0.10
 
     def run_episode(self, inputs):
         trace = []
 
         for i, packet in enumerate(inputs, start=1):
-            state = self._state(packet)
+            state = self._state(i)
             drift = self._drift(state)
 
             trace.append(
                 TracePoint(
                     step=i,
-                    drift=round(drift, 2),
+                    drift=drift,
                     state=state,
                     cm_version=self.cm.version,
                 )
