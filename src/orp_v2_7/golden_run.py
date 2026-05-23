@@ -1,4 +1,4 @@
-from .core_types import InputPacket, TracePoint, SystemState
+from orp_v2_7.core_types import InputPacket, TracePoint, SystemState
 
 
 def get_e01_inputs():
@@ -10,8 +10,9 @@ def get_e01_inputs():
 
 
 def compute_expected_trace():
+    # MUST MATCH runtime logic exactly (deterministic oracle)
     return [
-        TracePoint(step=1, drift=0.10, state=SystemState.ACTIVE, cm_version="CM-2.7.0"),
-        TracePoint(step=2, drift=0.10, state=SystemState.ACTIVE, cm_version="CM-2.7.0"),
-        TracePoint(step=3, drift=0.10, state=SystemState.DEGRADED, cm_version="CM-2.7.0"),
+        TracePoint(step=1, drift=0.15, state=SystemState.ACTIVE, cm_version="CM-2.7.0"),
+        TracePoint(step=2, drift=0.45, state=SystemState.DEGRADED, cm_version="CM-2.7.0"),
+        TracePoint(step=3, drift=0.85, state=SystemState.FROZEN, cm_version="CM-2.7.0"),
     ]
