@@ -1,5 +1,4 @@
-from .golden_run import get_e01_inputs, compute_expected_trace
-
+from orp_v2_7.golden_run import get_e01_inputs, compute_expected_trace
 
 class CTS2_7:
     def __init__(self, runtime):
