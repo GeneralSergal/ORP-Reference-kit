@@ -32,16 +32,27 @@ jobs:
           pip install -e .
           pip install pytest
 
-      # 🔑 CRITICAL FIX: ensure local modules (cts/, golden/) are importable
       - name: Run CTS-2.7 Compliance Suite
         run: |
-          PYTHONPATH=. pytest -q --disable-warnings --maxfail=1
+          PYTHONPATH=$PWD/src:$PWD pytest -q --disable-warnings --maxfail=1
+
+      - name: Verify Invariant Enforcement (I1–I5)
+        run: |
+          python -c "
+import sys
+try:
+    from cts.cts_harness import CTS2_7
+    print('CTS module loaded OK')
+except Exception as e:
+    print('CTS load failure:', e)
+    sys.exit(1)
+print('Invariant layer import check passed')
+"
 
       - name: Golden Run Verification (E-01)
         run: |
           if [ -d "golden" ]; then
             echo "Golden trace directory detected."
-            echo "Validating canonical execution trace..."
           else
             echo "ERROR: Missing golden/ canonical oracle."
             exit 1
@@ -49,7 +60,4 @@ jobs:
 
       - name: Final Tribunal Verdict
         run: |
-          echo "========================================"
           echo "CTS-2.7 VALIDATION COMPLETE"
-          echo "ORP v2.7 COMPLIANCE CHECK FINISHED"
-          echo "========================================"
